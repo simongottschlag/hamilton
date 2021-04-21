@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -167,6 +168,7 @@ func jsonUnmarshalAzCmd(i interface{}, arg ...string) error {
 	cmd := exec.Command("az", arg...)
 	cmd.Stderr = &stderr
 	cmd.Stdout = &stdout
+	cmd.Env = os.Environ()
 
 	if err := cmd.Start(); err != nil {
 		err := fmt.Errorf("launching Azure CLI: %+v", err)
